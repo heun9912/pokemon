@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>포켓몬 상세정보</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1 id="pokemon-name">포켓몬 이름</h1>
+    </header>
+    <main>
+      <div id="pokemon-info">
+        <!-- 포켓몬 상세정보가 여기에 들어감 -->
+      </div>
+    </main>
+    <script>
+      // 쿼리 스트링에서 포켓몬 ID 가져오기
+      const urlParams = new URLSearchParams(window.location.search);
+      const pokemonId = urlParams.get("id");
+
+      // API로부터 포켓몬 상세 정보 가져오기
+      fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
+        .then((response) => response.json())
+        .then((pokemon) => {
+          document.getElementById("pokemon-name").textContent = pokemon.name;
+          document.getElementById("pokemon-info").innerHTML = `
+            <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokemonId}.png" alt="${
+            pokemon.name
+          }" />
+            <p>도감 번호: ${pokemon.id}</p>
+            <p>포켓몬 이름: ${pokemon.name}</p>
+            <p>포켓몬 타입: ${pokemon.types
+              .map((typeInfo) => typeInfo.type.name)
+              .join(", ")}</p>
+              <p>포켓몬 특성: ${pokemon.abilities
+                .map((typeInfo) => typeInfo.ability.name)
+                .join(", ")}</p>
+
+            <p>체력: ${pokemon.stats[0].base_stat},
+            공격력: ${pokemon.stats[1].base_stat},
+            방어: ${pokemon.stats[2].base_stat},
+            특수공격: ${pokemon.stats[3].base_stat},
+            특수방어: ${pokemon.stats[4].base_stat},
+            스피드: ${pokemon.stats[5].base_stat}</p>
+            <p>종족값: ${
+              pokemon.stats[0].base_stat +
+              pokemon.stats[1].base_stat +
+              pokemon.stats[2].base_stat +
+              pokemon.stats[3].base_stat +
+              pokemon.stats[4].base_stat +
+              pokemon.stats[5].base_stat
+            }</p>
+          <p>키: ${pokemon.height}0cm</p>
+            <p>무게: ${pokemon.weight}g</p>
+            <!-- 필요한 추가 정보를 여기에 표시 -->
+          `;
+        })
+        .catch((error) =>
+          console.error("Error fetching Pokemon details:", error)
+        );
+    </script>
+  </body>
+</html>
