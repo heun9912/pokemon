@@ -1,34 +1,59 @@
-// API로부터 데이터를 가져오는 함수
-function fetchData() {
-  // 예시 데이터 (실제 API에서 가져온 데이터로 교체)
-  const data = Array.from({ length: 108 }, (_, i) => `Item ${i + 1}`);
-
-  // Grid 컨테이너 참조
-  const gridContainer = document.getElementById("grid-container");
-
-  // 데이터를 기반으로 동적으로 grid-item 생성
-  data.forEach((item) => {
-    const gridItem = document.createElement("div");
-    gridItem.className = "grid-item";
-    gridItem.textContent = item;
-    gridContainer.appendChild(gridItem);
-  });
-}
-
 // 페이지 로드 시 데이터 가져오기
 // 페이지 로드 시 포켓몬 데이터 가져오기
 window.onload = () => {
-  fetch("https://pokeapi.co/api/v2/pokemon?limit=151")
+  fetch("https://pokeapi.co/api/v2/pokemon?limit=1025")
     .then((response) => response.json())
     .then((json) => {
-      const gridContainer = document.getElementById("grid-container");
+      const container = document.getElementById("container");
+      const pokemonList = json.results;
 
       // API에서 받아온 포켓몬 리스트 출력
-      json.results.forEach((pokemon) => {
-        const gridItem = document.createElement("div");
-        gridItem.className = "grid-item";
-        gridItem.innerHTML = `${pokemon.name}<br><a href="${pokemon.url}" target="_blank">Details</a>`;
-        gridContainer.appendChild(gridItem);
+      pokemonList.forEach((pokemon, index) => {
+        const pokemonId = index + 1;
+        const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
+
+        const item = document.createElement("div");
+        item.className = "item";
+        item.innerHTML = `<img src="${imageUrl}" alt="${pokemon.name}" /> No.${pokemonId}<br>${pokemon.name}`;
+
+        // 상세 페이지로 이동하는 클릭 이벤트 추가
+        item.addEventListener("click", () => {
+          window.location.href = `detail.html?id=${pokemonId}`;
+        });
+
+        container.appendChild(item);
+      });
+
+      // 검색 이벤트
+      $("#form").on("submit", function (e) {
+        e.preventDefault();
+        const value = $("#search").val().toLowerCase();
+
+        // 포켓몬 이름에 검색 문자열을 포함한 포켓몬만 필터링
+        const filteredPokemon = pokemonList.filter((pokemon) =>
+          pokemon.name.includes(value)
+        );
+
+        // 기존에 있던 요소를 비움
+        $("#container").empty();
+
+        // 필터링된 포켓몬을 다시 출력
+        filteredPokemon.forEach((pokemon) => {
+          const pokemonId = pokemonList.indexOf(pokemon) + 1;
+          const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`;
+
+          const item = document.createElement("div");
+          item.className = "item";
+          item.innerHTML = `<img src="${imageUrl}" alt="${pokemon.name}" /> No.${pokemonId}<br>${pokemon.name}`;
+
+          // 상세 페이지로 이동하는 클릭 이벤트 추가
+          item.addEventListener("click", () => {
+            window.location.href = `detail.html?id=${pokemonId}`;
+          });
+
+          // 필터된 아이템을 컨테이너에 추가
+          container.appendChild(item);
+        });
       });
     })
     .catch((error) => console.error("Error fetching data:", error));
