@@ -10,6 +10,16 @@
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -18,11 +28,58 @@
         <img src="img/pngwing.com.png" alt="" placeholder="Search Pokémon" />
       </h1>
     </header>
+    <div class="slide">
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/1.png"
+        alt=""
+      />
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/4.png"
+        alt=""
+      />
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/7.png"
+        alt=""
+      />
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/25.png"
+        alt=""
+      />
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/151.png"
+        alt=""
+      />
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/251.png"
+        alt=""
+      />
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/385.png"
+        alt=""
+      />
+      <img
+        src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/shiny/494.png"
+        alt=""
+      />
+    </div>
     <form action="" id="form">
       <input type="text" id="search" /><button type="submit">search</button>
     </form>
     <div class="container" id="container">
       <!-- 이곳에 동적으로 grid-item이 추가될 것임 -->
     </div>
+    <script
+      type="text/javascript"
+      src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"
+    ></script>
+    <script>
+      $(".slide").slick({
+        Infinite: true,
+        dots: true,
+        slidesToShow: 1,
+        autoplay: true,
+        autoplaySpeed: 1,
+      });
+    </script>
   </body>
 </html>

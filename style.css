@@ -86,3 +86,7 @@ button:hover {
 .item p {
   margin: 0;
 }
+.slide {
+  width: 15%;
+  margin: 0 auto;
+}
